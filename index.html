@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUREA | Curaduría de Viajes Extraordinarios</title>
+    
+    <!-- Tipografía Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons para UI limpia -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-color: #fcfbf8;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+            --accent: #b08d57;
+            --white: #ffffff;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 20px 60px;
+            background: rgba(252, 251, 248, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-item {
+            position: relative;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: var(--accent);
+        }
+
+        /* Submenu */
+        .has-submenu:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .submenu {
+            position: absolute;
+            top: 25px;
+            left: -20px;
+            background: var(--white);
+            min-width: 220px;
+            padding: 20px;
+            list-style: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: var(--transition);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .submenu li {
+            margin-bottom: 12px;
+        }
+
+        .submenu a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .submenu a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+                        url('https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+
+        .btn-luxury {
+            padding: 20px 45px;
+            border: 1px solid var(--white);
+            background: transparent;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-luxury:hover {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        /* --- Destinations Section --- */
+        .section {
+            padding: 120px 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .dest-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .dest-card {
+            position: relative;
+            height: 550px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .dest-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .dest-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .dest-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .dest-category {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .dest-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+        }
+
+        /* --- Mobile --- */
+        @media (max-width: 1024px) {
+            .dest-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            nav { display: none; }
+            .section { padding: 80px 20px; }
+            .dest-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.5rem; }
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #111;
+            color: var(--white);
+            padding: 100px 60px 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-about {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <a href="#" class="logo">Aurea</a>
+        <nav>
+            <a href="#" class="nav-item">Colecciones</a>
+            <div class="has-submenu" style="position:relative;">
+                <a href="#" class="nav-item">Destinos <i data-lucide="chevron-down" style="width:12px; vertical-align:middle; margin-left:4px;"></i></a>
+                <ul class="submenu">
+                    <li><a href="#">Costa Amalfitana</a></li>
+                    <li><a href="#">Maldivas Privado</a></li>
+                    <li><a href="#">Safari en Botsuana</a></li>
+                    <li><a href="#">Kioto Oculto</a></li>
+                </ul>
+            </div>
+            <a href="#" class="nav-item">Filosofía</a>
+            <a href="#" class="nav-item">Concierge</a>
+            <a href="#" class="nav-item">Journal</a>
+        </nav>
+        <div class="header-tools">
+            <a href="#" style="color:var(--text-dark);"><i data-lucide="search" style="width:20px;"></i></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-video-bg"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">MÁS ALLÁ DEL HORIZONTE</p>
+            <h1 class="hero-title">Viajes Diseñados <br>para el Alma</h1>
+            <a href="#destinos" class="btn-luxury">Explorar la Colección</a>
+        </div>
+    </section>
+
+    <section class="section" id="destinos">
+        <div class="section-header">
+            <h2>Destinos Curados</h2>
+            <p>Una selección de los refugios más exclusivos del mundo, elegidos por su autenticidad, belleza y servicio impecable.</p>
+        </div>
+
+        <div class="dest-grid">
+            <!-- Destino 1 -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=1000" alt="Islas Privadas">
+                <div class="dest-overlay">
+                    <span class="dest-category">Serenidad</span>
+                    <h3 class="dest-name">Maldivas Profundo</h3>
+                </div>
+            </div>
+            <!-- Destino 2 -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1493246507139-91e8bef99c1e?auto=format&fit=crop&q=80&w=1000" alt="Montañas">
+                <div class="dest-overlay">
+                    <span class="dest-category">Aventura</span>
+                    <h3 class="dest-name">Cumbres de los Alpes</h3>
+                </div>
+            </div>
+            <!-- Destino 3 -->
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=1000" alt="Safari">
+                <div class="dest-overlay">
+                    <span class="dest-category">Naturaleza</span>
+                    <h3 class="dest-name">Okavango Privado</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: #1a1a1a; color: white;">
+        <div style="display: flex; align-items: center; gap: 80px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1000" alt="Interior Lujo" style="width: 100%; height: 600px; object-fit: cover;">
+            </div>
+            <div style="flex: 1; min-width: 300px;">
+                <span style="color: var(--accent); letter-spacing: 4px; font-size: 0.8rem;">EL COMPROMISO AUREA</span>
+                <h2 style="font-size: 3rem; margin: 30px 0; line-height: 1.2;">No vendemos viajes, creamos legados visuales.</h2>
+                <p style="color: #999; line-height: 2; margin-bottom: 40px;">Cada itinerario es una obra de arte única, supervisada por especialistas locales y ajustada a sus deseos más profundos. Desde acceso exclusivo a museos tras el cierre hasta cenas privadas en monumentos históricos.</p>
+                <a href="#" class="btn-luxury">Nuestra Filosofía</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <span class="logo footer-logo">Aurea</span>
+                <p class="footer-about">Definiendo el estándar global del viaje de lujo desde hace dos décadas. Miembros exclusivos de Virtuoso y Serandipians.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Viajes</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Destinos</a></li>
+                    <li><a href="#">Vuelos Privados</a></li>
+                    <li><a href="#">Yates & Villas</a></li>
+                    <li><a href="#">Cruceros Boutique</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Agencia</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#">Membresía VIP</a></li>
+                    <li><a href="#">Journal</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Términos</a></li>
+                    <li><a href="#">Privacidad</a></li>
+                    <li><a href="#">Sostenibilidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 AUREA TRAVEL CURATORS. DISEÑADO PARA LOS POCOS QUE APRECIAN LO MUCHO.
+        </div>
+    </footer>
+
+    <script>
+        // Inicializar Iconos
+        lucide.createIcons();
+
+        // Efecto Scroll Header
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Animación suave de entrada para los elementos
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.dest-card, .section-header').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 1s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
